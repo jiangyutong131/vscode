@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026元旦烟花特效</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(./439F19DB9D243DBFA8AED63319233852.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            z-index: -2;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.15), rgba(0,0,0,0.3));
+            z-index: -1;
+        }
+        .wish-text {
+            position: absolute;
+            color: #fff;
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 15px #ffd700, 0 0 30px #ff0000, 0 0 45px #9933ff;
+            z-index: 10;
+            top: 22%;
+            left: 50%;
+            transform: translateX(-50%);
+            line-height: 1.8;
+        }
+        canvas { display: block; background-color: rgba(0,0,0,0.08); }
+    </style>
+</head>
+<body>
+    <div class="wish-text">2026<br>平安喜乐，万事胜意</div>
+    <canvas id="fireworks"></canvas>
+
+    <script>
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function random(min, max) { return Math.random() * (max - min) + min; }
+
+        // 按你要求分3组配色，精准搭配不混乱
+        function getGradientColor(x, y) {
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, 22);
+            // 随机选3组配色之一
+            const group = Math.floor(random(0,3));
+            let mainColor, lightColor;
+            
+            // 组1：蓝色+紫色搭配（正蓝+亮紫，不发粉）
+            if(group === 0){
+                mainColor = ['#0066FF', '#9933FF'][Math.floor(random(0,2))];
+                lightColor = ['#e6f7ff', '#ddccff'][Math.floor(random(0,2))];
+            }
+            // 组2：红色+绿色搭配（正红+鲜绿，节日感）
+            else if(group === 1){
+                mainColor = ['#FF0000', '#00e676'][Math.floor(random(0,2))];
+                lightColor = ['#fff5f5', '#e8fff3'][Math.floor(random(0,2))];
+            }
+            // 组3：金色+紫色搭配（亮金+亮紫，高级感）
+            else{
+                mainColor = ['#FFD700', '#9933FF'][Math.floor(random(0,2))];
+                lightColor = ['#fffbd7', '#ddccff'][Math.floor(random(0,2))];
+            }
+
+            gradient.addColorStop(0, mainColor);
+            gradient.addColorStop(1, lightColor);
+            return gradient;
+        }
+
+        // 5种烟花样式（不单一，超灵动）
+        class Particle {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.speed = random(3, 9);
+                this.angle = random(0, Math.PI * 2);
+                this.gravity = random(0.02, 0.04);
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.alpha = 1;
+                this.decay = random(0.003, 0.01);
+                this.size = random(2, 6);
+                this.gradient = getGradientColor(x, y);
+                // 5种样式随机：圆形+星星+爱心+菱形+十字
+                
+    this.type = type || ['normal','star','heart','diamond','cross'][Math.floor(random(0,5))];
+             }
+             update() {
+                 this.vy += this.gravity;
+                 this.vx += random(-0.08, 0.08);
+                 this.x += this.vx;
+                 this.y += this.vy;
+                 this.alpha -= this.decay;
+                 this.size *= 0.97;
+             }
+             draw() {
+                 ctx.save();
+                 ctx.globalAlpha = this.alpha;
+                 ctx.beginPath();
+                 switch(this.type){
+                     case 'star': drawStar(this.x,this.y,this.size,this.size*2,5);break;
+                     case 'heart': drawHeart(this.x,this.y,this.size);break;
+                     case 'diamond': drawDiamond(this.x,this.y,this.size);break;
+                     case 'cross': drawCross(this.x,this.y,this.size);break;
+                     default: ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+                 }
+                 ctx.fillStyle = this.gradient;
+                 ctx.fill();
+                 ctx.restore();
+             }
+         }
+         // 5种烟花形状绘制函数（完整无缺）
+         function drawStar(x, y, innerR, outerR, points) {
+             ctx.beginPath();
+             for (let i = 0; i < points * 2; i++) {
+                 const r = i % 2 === 0 ? outerR : innerR;
+                 const angle = (i * Math.PI / points) - Math.PI / 2;
+                 const px = x + Math.cos(angle) * r;
+                 const py = y + Math.sin(angle) * r;
+                 i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+             }
+             ctx.closePath();
+         }
+         function drawHeart(x, y, size) {
+             ctx.beginPath();
+             ctx.moveTo(x, y + size);
+             ctx.bezierCurveTo(x-size/2,y, x-size,y-size/2, x,y-size);
+             ctx.bezierCurveTo(x+size,y-size/2, x+size/2,y, x,y+size);
+             ctx.closePath();
+         }
+         function drawDiamond(x, y, size) {
+             ctx.beginPath();
+             ctx.moveTo(x, y - size);
+             ctx.lineTo(x + size, y);
+             ctx.lineTo(x, y + size);
+             ctx.lineTo(x - size, y);
+             ctx.closePath();
+         }
+         function drawCross(x, y, size) {
+             ctx.beginPath();
+             ctx.rect(x-size/2, y-size*1.5, size, size*3);
+             ctx.rect(x-size*1.5, y-size/2, size*3, size);
+             ctx.closePath();
+         }
+         let particles = [];
+         let mouseTimer = null;
+         const delay = 50;
+         // 生成烟花（点击/移动/自动都有）
+         function createFireworks(x, y, isFollow = false) {
+             const fireX = x || random(canvas.width*0.1, canvas.width*0.9);
+             const fireY = y || random(canvas.height*0.2, canvas.height*0.7);
+             const count = isFollow ? random(25,55) : random(130,200);
+             for(let i=0; i<count; i++) particles.push(new Particle(fireX, fireY));
+         }
+         // 鼠标移动跟随放烟花
+         canvas.addEventListener('mousemove', (e) => {
+             if (mouseTimer) clearTimeout(mouseTimer);
+             mouseTimer = setTimeout(() => createFireworks(e.clientX+random(-25,25), e.clientY+random(-25,25), true), delay);
+         });
+         // 点击放2簇烟花，更热闹
+         canvas.addEventListener('click', (e) => {
+             createFireworks(e.clientX, e.clientY);
+             setTimeout(() => createFireworks(e.clientX+random(-60,60), e.clientY+random(-60,60)), 120);
+         });
+         // 动画循环
+         function animate() {
+             requestAnimationFrame(animate);
+             ctx.fillStyle = 'rgba(0,0,0,0.06)';
+             ctx.fillRect(0, 0, canvas.width, canvas.height);
+             particles = particles.filter(p => p.alpha > 0);
+             particles.forEach(p => { p.update(); p.draw(); });
+         }
+         // 自动放烟花（1-2秒一朵）
+         setInterval(() => createFireworks(), random(800, 1800));
+         // 窗口自适应
+         window.addEventListener('resize', () => {
+             canvas.width = window.innerWidth;
+             canvas.height = window.innerHeight;
+         });
+         animate();
+     </script>
+ </body>
+ </html>
+   
+         

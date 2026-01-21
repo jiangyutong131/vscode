@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登陆界面</title>
+    <style>
+        .container{
+            width: 300px;
+            margin: 100px auto;
+            border: 3px solid #01A9FE;
+        }
+        .top{
+            height: 100px;
+            width: 300px;
+            background-color: #01A9FE;
+        }
+        h2{
+            margin: 20px ;
+            text-align: center;
+        }
+        label{
+            display: block;
+            margin-bottom: 10px;          
+            font-size: larger;
+        }
+        input{
+            display: block;
+            margin-bottom: 10px;
+            height: 20px;
+        }
+        .bottom{
+            display: flex;
+            justify-content: center;
+        }
+        .right{
+            margin-left: 10px;
+        }
+        .small-bottom{ 
+            text-align: center;
+           
+        }
+        .radio{
+            display: inline-block;
+        }
+        .button{
+            display: inline-block;
+            margin-right: 10px;
+            background-color: #01A9FE;
+        }
+        .bottom-max{
+            text-align: center;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top"></div>
+        <h2>登陆界面</h2>
+        <div class="bottom">
+            <div class="left">
+                <label for="text">电子邮箱</label>
+                <label for="password">密码</label>
+            </div>
+            <div class="right">
+                <input type="text" placeholder="请输入电子邮箱" id="text" required>
+                <input type="password" placeholder="请输入密码" id="password" required>
+            </div>
+        </div>
+        <div class="small-bottom">
+            <input type="radio" class="radio">男</input> <input type="radio" class="radio">女</input>
+        </div>
+        <div class="bottom-max">
+           <button type="submit" class="button">登录</button> <a href="#">忘记密码</a>
+        </div>
+    </div>
+</body>
+</html>

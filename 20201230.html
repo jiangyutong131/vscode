@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{padding: 0;margin: 0;box-sizing: border-box;}
+        .container{display: flex;margin: 0 auto;}
+        .left{width: 300px;border: 2px solid pink;margin:  20px;}
+        h2{margin:10px auto;text-align: center;}
+        p{margin-bottom: 10px;}
+        .price1{color: red;}
+        .bottom{text-align: center;}
+        .bottom-left{background-color: green;color: white;padding: 6px;margin-right: 4px;display: inline-block;}
+        .bottom-right{background-color: red;color: white;padding: 6px;display: inline-block;}
+        .bottom-left:hover {background-color: #999;cursor: pointer;}
+        .bottom-right:hover {background-color: #999;cursor: pointer;}
+        .left:hover {box-shadow: 0 0 20px 20px rgba(255, 0, 0, 0.8);}
+        .imgc{position: relative;margin: 20px;}
+        .love{position: absolute;color: pink;top: 50%;left: 60%;}
+        .mlove{color: red;position: absolute;left: 40%;top: 80%; transition: all 0.5s ease;opacity: 0;margin: 0;}
+        .imgc:hover .mlove{transform: scale(1.3);top: 70%;text-shadow: 0 0 8px red;opacity: 1;box-shadow: 0 0 20px 20px pink;}
+        .imgc:hover {box-shadow: 0 0 20px 20px rgba(255, 0, 0, 0.8);}
+    </style>
+</head>
+<body>
+    <div class="container">
+            <div class="left">
+                    <img src="./68EF18174D49F47343AE58A26549B891.jpg" alt="可爱小熊熊" width="100%" height="auto">
+                    <h2>可爱小熊熊</h2>
+                    <p>爱你无价</p>
+                    <span class="price1">￥5</span><span><del>￥20000</del></span>
+                    <div class="bottom"><h3 class="bottom-left">加入购物车</h3><h3 class="bottom-right">立即购买</h3></div>
+            </div>
+            <div class="imgc">
+                    <img src="./9D7532BE01FFB62E889428138DBE1A9B.jpg" alt="美女" width="700" height="500">
+                    <h2 class="love">爱你哟♥</h2> 
+                    <h2 class="mlove">♥♥♥♥♥</h2>              
+            </div>
+            <div class="left">
+                    <img src="./CEA069850AD99BB2CDE3DFE9A2F4E1F6.jpg" alt="爱心巧克力" width="100%" height="auto">
+                    <h2>爱心巧克力</h2>
+                    <p>爱意满满</p>
+                    <span class="price1">￥3</span><span><del>￥15000</del></span>
+                    <div class="bottom"><h3 class="bottom-left">加入购物车</h3><h3 class="bottom-right">立即购买</h3></div>
+            </div>
+    </div>
+</body>
+</html>
